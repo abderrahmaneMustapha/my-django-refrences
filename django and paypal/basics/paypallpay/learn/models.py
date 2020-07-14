@@ -8,7 +8,8 @@ class Course(models.Model):
 
 
 class Order(models.Model):
-    user_name = models.CharField(_("username "), max_length=50)
-    adress = models.CharField(_("user adress"), max_length=50)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    user_name = models.CharField(("username "), max_length=50)
+    adress = models.CharField(("user adress"), max_length=50)
 
 
