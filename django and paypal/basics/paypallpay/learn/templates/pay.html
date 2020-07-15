@@ -2,9 +2,7 @@
 
 
 {% block main %}
-<div class="d-flex justify-content-around">
-    {% for course in courses%}
-    <div class="card w-25 shadow" >      
+  <div class="card w-25 shadow" >      
         <div class="card-body">
             <div class="card-title">
                 <h2>{{course.name}}</h2>
@@ -19,7 +17,4 @@
             <a href="{% url 'pay' course.pk %}" class="btn btn-warning font-weight-bold btn-lg col-12">Pay</a>
         </div>
     </div>
-    {% endfor %}
-
-</div>
 {% endblock %}

@@ -1,10 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
-
+from .models import Course,Order
 def index(request):
-    return render(request, 'index.html', {})
+    courses = Course.objects.all()
+    return render(request, 'index.html', {'courses':courses})
 
+def pay(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    return render(request, 'pay.html', {'course':course})
 def create(request):
     data = {}
     return JsonResponse(data)
