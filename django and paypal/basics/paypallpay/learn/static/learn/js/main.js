@@ -1,3 +1,2 @@
 
-
-fetch('/')
+console.log("hey there")
