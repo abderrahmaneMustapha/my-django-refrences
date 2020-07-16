@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block main %}
   <div class="card w-25 shadow" >      
@@ -21,4 +21,5 @@
 
 {% block extrascript %}
 <script src="https://www.paypal.com/sdk/js?client-id={{client_id}}"> // Required. Replace SB_CLIENT_ID with your sandbox client ID.</script>
+<script src="{% static 'js/main.js' %}">
 {% endblock %}
