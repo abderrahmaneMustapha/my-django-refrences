@@ -7,8 +7,9 @@ def index(request):
     return render(request, 'index.html', {'courses':courses})
 
 def pay(request, pk):
+    client_id = settings.PAYPAL_CLIENT_ID
     course = get_object_or_404(Course, pk=pk)
-    return render(request, 'pay.html', {'course':course})
+    return render(request, 'pay.html', {'course':course, 'client_id':client_id })
 def create(request):
     data = {}
     return JsonResponse(data)
