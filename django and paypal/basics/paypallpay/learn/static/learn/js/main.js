@@ -13,25 +13,27 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-const csrftoken = getCookie('csrftoken');
 
+const csrftoken = getCookie('csrftoken');
+const course_id = document.getElementById('course-id').value
         paypal.Buttons({
 
             // Call your server to set up the transaction
             createOrder: function(data, actions) {
-                return fetch('/paypal/create/', {
+                return fetch('/paypal/create/'+course_id+'/', {
                     method: 'post',
                     headers: {"X-CSRFToken": csrftoken}
                 }).then(function(res) {
                     return res.json();
                 }).then(function(orderData) {
+                    console.log(orderData)
                     return orderData.id;
                 });
             },
 
             // Call your server to finalize the transaction
             onApprove: function(data, actions) {
-                return fetch('/paypal/' + data.orderID + '/capture/'+course_id, {
+                return fetch('/paypal/' + data.orderID + '/capture/'+course_id+'/', {
                     method: 'post',
                     headers: {"X-CSRFToken": csrftoken}
                 }).then(function(res) {

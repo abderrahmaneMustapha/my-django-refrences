@@ -15,39 +15,56 @@ def pay(request, pk):
     client_id = settings.PAYPAL_CLIENT_ID
     course = get_object_or_404(Course, pk=pk)
     return render(request, 'pay.html', {'course':course, 'client_id':client_id })
-def create(request):
-    environment = SandboxEnvironment(client_id=settings.PAYPAL_CLIENT_ID, client_secret=settings.PAYPAL_SECRET_ID)
-    client = PayPalHttpClient(environment)
+def create(request,id):
+    if request.method =="POST":
+        environment = SandboxEnvironment(client_id=settings.PAYPAL_CLIENT_ID, client_secret=settings.PAYPAL_SECRET_ID)
+        client = PayPalHttpClient(environment)
 
-    create_order = OrdersCreateRequest()
+        course = Course.objects.get(pk=id)
+        create_order = OrdersCreateRequest()
 
-    #order            
-    create_order.request_body (
-        {
-            "intent": "CAPTURE",
-            "purchase_units": [
-                {
-                    "amount": {
-                        "currency_code": "USD",
-                        "value": order.get_total_price_dollar(),
-                        "breakdown": {
-                            "item_total": {
-                                "currency_code": "USD",
-                                "value":  order.get_total_price_dollar()
-                            }
-                            },
-                        },                               
-                    
-                    
-                }
-            ]
-        }
-    )
-    return JsonResponse(data)
+        #order            
+        create_order.request_body (
+            {
+                "intent": "CAPTURE",
+                "purchase_units": [
+                    {
+                        "amount": {
+                            "currency_code": "USD",
+                            "value": course.price,
+                            "breakdown": {
+                                "item_total": {
+                                    "currency_code": "USD",
+                                    "value": course.price
+                                }
+                                },
+                            },                               
+                        
+                        
+                    }
+                ]
+            }
+        )
+
+        response = client.execute(create_order)
+        data = response.result.__dict__['_dict']
+        return JsonResponse(data)
+    else:
+        return JsonResponse({'details': "invalide request"})
+        
 
 def capture(request,order_id,id):
-    data= {}
-    return JsonResponse(data)
+    if request.method =="POST":
+        capture_order = OrdersCaptureRequest(order_id)
+        environment = SandboxEnvironment(client_id=settings.PAYPAL_CLIENT_ID, client_secret=settings.PAYPAL_SECRET_ID)
+        client = PayPalHttpClient(environment)
+        
+        response = client.execute(capture_order)
+        data = response.result.__dict__['_dict']
+
+        return JsonResponse(data)
+    else:
+        return JsonResponse({'details': "invalide request"})
 
 def getClientId(request):
     if request.method == "GET":        
