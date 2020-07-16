@@ -1,14 +1,27 @@
-console.log('helloo there')
-fetch('/paypal/client-id/')
-    .then(response => response.json())
-    .then((data) => {
-        client_id= data.client_id
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
         paypal.Buttons({
 
             // Call your server to set up the transaction
             createOrder: function(data, actions) {
                 return fetch('/paypal/create/', {
-                    method: 'post'
+                    method: 'post',
+                    headers: {"X-CSRFToken": csrftoken}
                 }).then(function(res) {
                     return res.json();
                 }).then(function(orderData) {
@@ -19,7 +32,8 @@ fetch('/paypal/client-id/')
             // Call your server to finalize the transaction
             onApprove: function(data, actions) {
                 return fetch('/paypal/' + data.orderID + '/capture/'+course_id, {
-                    method: 'post'
+                    method: 'post',
+                    headers: {"X-CSRFToken": csrftoken}
                 }).then(function(res) {
                     return res.json();
                 }).then(function(orderData) {
@@ -52,4 +66,3 @@ fetch('/paypal/client-id/')
 
 
         }).render('#paypal-button-container');
-})
