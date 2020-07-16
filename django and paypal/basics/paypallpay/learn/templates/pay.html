@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load script %}
 
 {% block main %}
   <div class="card w-25 shadow" >      
@@ -17,4 +17,8 @@
             <a href="{% url 'pay' course.pk %}" class="btn btn-warning font-weight-bold btn-lg col-12">Pay</a>
         </div>
     </div>
+{% endblock %}
+
+{% block extrascript %}
+<script src={% script 'js/main.js'%}></script>
 {% endblock %}
