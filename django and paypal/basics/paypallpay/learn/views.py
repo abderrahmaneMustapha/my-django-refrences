@@ -15,7 +15,7 @@ def create(request):
     data = {}
     return JsonResponse(data)
 
-def capture(request):
+def capture(request,order_id,id):
     data= {}
     return JsonResponse(data)
 
