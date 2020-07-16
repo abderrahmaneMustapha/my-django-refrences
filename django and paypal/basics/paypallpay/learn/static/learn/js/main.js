@@ -1,4 +1,4 @@
-console.log('hey there')
+console.log('helloo there')
 fetch('/paypal/client-id/')
     .then(response => response.json())
     .then(data => console.log(data))
