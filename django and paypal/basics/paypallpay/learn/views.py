@@ -11,6 +11,7 @@ def pay(request, pk):
     course = get_object_or_404(Course, pk=pk)
     return render(request, 'pay.html', {'course':course, 'client_id':client_id })
 def create(request):
+    print("here im")
     data = {}
     return JsonResponse(data)
 
@@ -19,4 +20,5 @@ def capture(request):
     return JsonResponse(data)
 
 def getClientId(request):
-   return JsonResponse({'client_id':  settings.PAYPAL_CLIENT_ID})
+    if request.method == "GET":        
+        return JsonResponse({'client_id':  settings.PAYPAL_CLIENT_ID})

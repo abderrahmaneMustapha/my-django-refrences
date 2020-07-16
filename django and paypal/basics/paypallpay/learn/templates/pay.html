@@ -13,13 +13,14 @@
             </div>
 
         </div>
-        <div class="card-footer bg-white">            
-            <a href="{% url 'pay' course.pk %}" class="btn btn-warning font-weight-bold btn-lg col-12">Pay</a>
+        <div class="card-footer bg-white"> 
+            <input id="course-id"  value={{course.id}} hidden/>         
+            <div id="paypal-button-container"></div>
         </div>
     </div>
 {% endblock %}
 
 {% block extrascript %}
-    <script src="https://www.paypal.com/sdk/js?client-id={{client_id}}" > </script>// Required. Replace SB_CLIENT_ID with your sandbox client ID.
+    <script src="https://www.paypal.com/sdk/js?client-id={{client_id}}&disable-funding=credit,card" > </script> 
     <script src="{% static  'learn/js/main.js' %}" ></script>
 {% endblock %}
