@@ -7,6 +7,20 @@ window.addEventListener("dragover",function(e){
     e.preventDefault();
   },false);
 
+
+  delete_el = (element, tag)=>{
+    label = element.getElementsByTagName(tag)[0]
+    if(label) {element.removeChild(label)}
+    else{
+        other = element.getElementsByClassName(tag)[0]
+        if(other) element.removeChild(other)
+    }
+   
+    
+}
+
+
+
   handle_file = (element,file)=>{
     const reader = new FileReader();
     reader.readAsDataURL(file)
