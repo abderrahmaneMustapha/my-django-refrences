@@ -51,3 +51,47 @@ window.addEventListener("dragover",function(e){
           handle_file(element,event.target.files[0],)
       })
   })
+
+
+
+//////// THE AJAX PART ////////////////////
+
+  ///////////// get cookie /////////////////
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+button = document.getElementsByTagName('button')[0]
+
+  button.addEventListener('click', event=>{
+    event.preventDefault()
+    var xhttp = new XMLHttpRequest();
+    formData = new FormData()
+    formData.append('image', document.getElementById('id_image').files[0])
+
+    xhttp.open("POST", '/', true);
+    xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+  
+  
+    xhttp.send(formData)
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            data = JSON.parse(this.responseText)
+       
+              console.log(data)
+                              
+        }
+    }
+  })

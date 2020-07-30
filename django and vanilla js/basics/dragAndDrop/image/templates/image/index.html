@@ -12,6 +12,7 @@
 <body>
 <div class="w-25 mx-auto mt-5">
     <form method="POST" >
+        {% csrf_token %}
         <div class="form-group">
             {{form.image.label_tag}}
             <div class="file-input">
